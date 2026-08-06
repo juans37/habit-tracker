@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import {
   UMBRAL_DIA_CUMPLIDO,
@@ -51,17 +52,25 @@ export default async function HoyPage() {
     <main className="mx-auto flex min-h-screen w-full max-w-md flex-col gap-8 p-6">
       <header className="flex items-baseline justify-between">
         <h1 className="text-xl font-semibold">Hoy</h1>
-        <p className="text-sm text-gray-500">
-          Racha:{" "}
-          <span className="font-medium text-gray-900">{racha}</span>{" "}
-          {racha === 1 ? "día" : "días"}
-        </p>
+        <div className="flex items-baseline gap-3">
+          <p className="text-sm text-gray-500">
+            Racha:{" "}
+            <span className="font-medium text-gray-900">{racha}</span>{" "}
+            {racha === 1 ? "día" : "días"}
+          </p>
+          <Link href="/bloques" className="text-sm text-gray-500 hover:text-gray-900">
+            Bloques
+          </Link>
+        </div>
       </header>
 
       {bloquesActivos.length === 0 ? (
         <p className="text-sm text-gray-500">
-          Todavía no tenés bloques activos. La gestión de bloques (crear, reordenar)
-          llega en la próxima etapa.
+          Todavía no tenés bloques activos.{" "}
+          <Link href="/bloques" className="underline hover:text-gray-900">
+            Creá el primero
+          </Link>
+          .
         </p>
       ) : (
         <div className="flex flex-col gap-0.5">
