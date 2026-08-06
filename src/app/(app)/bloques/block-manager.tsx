@@ -59,7 +59,7 @@ export function BlockManager({ bloquesIniciales }: BlockManagerProps) {
 
   if (bloques.length === 0) {
     return (
-      <p className="text-sm text-gray-500">
+      <p className="text-sm text-ink-soft">
         Todavía no tenés bloques. Agregá el primero abajo.
       </p>
     );
@@ -75,9 +75,9 @@ export function BlockManager({ bloquesIniciales }: BlockManagerProps) {
         items={bloques.map((b) => b.id)}
         strategy={verticalListSortingStrategy}
       >
-        <div className="flex flex-col gap-0.5">
-          {bloques.map((bloque) => (
-            <BlockItem key={bloque.id} blockId={bloque.id} name={bloque.name} />
+        <div className="flex flex-col gap-2.5">
+          {bloques.map((bloque, i) => (
+            <BlockItem key={bloque.id} blockId={bloque.id} name={bloque.name} index={i} />
           ))}
         </div>
       </SortableContext>

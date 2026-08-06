@@ -1,3 +1,4 @@
+import { colorForBlock } from "@/lib/block-colors";
 import type { CumplimientoBloque } from "@/lib/estadisticas";
 
 interface BlockBarsProps {
@@ -6,23 +7,24 @@ interface BlockBarsProps {
 
 export function BlockBars({ bloques }: BlockBarsProps) {
   if (bloques.length === 0) {
-    return <p className="text-sm text-gray-500">No hay bloques activos todavía.</p>;
+    return <p className="text-sm text-ink-soft">No hay bloques activos todavía.</p>;
   }
 
   return (
-    <div className="flex flex-col gap-3">
-      {bloques.map((bloque) => {
+    <div className="flex flex-col gap-3.5 rounded-[14px] border border-border bg-card p-4">
+      {bloques.map((bloque, i) => {
         const porcentaje = Math.round(bloque.ratio * 100);
+        const color = colorForBlock(i);
         return (
-          <div key={bloque.blockId} className="flex flex-col gap-1">
-            <div className="flex items-baseline justify-between text-sm">
-              <span className="text-gray-900">{bloque.name}</span>
-              <span className="text-gray-500">{porcentaje}%</span>
+          <div key={bloque.blockId} className="flex flex-col gap-1.5">
+            <div className="flex justify-between text-[13px]">
+              <span className="font-semibold text-ink">{bloque.name}</span>
+              <span className="font-bold text-ink-soft">{porcentaje}%</span>
             </div>
-            <div className="h-1.5 w-full rounded-full bg-gray-100">
+            <div className="h-2 overflow-hidden rounded-md bg-[rgba(255,255,255,.06)]">
               <div
-                className="h-1.5 rounded-full bg-black"
-                style={{ width: `${Math.min(100, porcentaje)}%` }}
+                className="h-full rounded-md"
+                style={{ width: `${Math.min(100, porcentaje)}%`, background: color }}
               />
             </div>
           </div>

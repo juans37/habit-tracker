@@ -21,21 +21,25 @@ export function NewBlockForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2">
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-2 rounded-2xl border border-dashed border-border-strong bg-card p-4"
+    >
+      <div className="text-[13px] font-bold text-ink-soft">Nuevo bloque</div>
       <input
         ref={inputRef}
         value={valor}
         onChange={(e) => setValor(e.target.value)}
-        placeholder="Nuevo bloque"
+        placeholder="Nombre del bloque"
         disabled={isPending}
-        className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-[15px] outline-none disabled:opacity-60"
+        className="rounded-lg border border-border-strong bg-surface px-2.5 py-2.5 text-sm text-ink outline-none disabled:opacity-60"
       />
       <button
         type="submit"
         disabled={isPending || !valor.trim()}
-        className="shrink-0 rounded-lg bg-black px-4 py-2 text-[15px] text-white disabled:opacity-40"
+        className="rounded-lg bg-accent py-2.5 text-sm font-bold text-surface disabled:opacity-40"
       >
-        Agregar
+        Agregar bloque
       </button>
     </form>
   );

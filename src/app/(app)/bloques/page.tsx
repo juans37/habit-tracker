@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import { AppShell } from "@/components/app-shell";
 import { BlockManager } from "./block-manager";
 import { NewBlockForm } from "./new-block-form";
 
@@ -15,38 +15,32 @@ export default async function BloquesPage() {
   const inactivos = (bloques ?? []).filter((b) => !b.is_active);
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-md flex-col gap-8 p-6">
-      <header className="flex items-baseline justify-between">
-        <h1 className="text-xl font-semibold">Bloques</h1>
-        <nav className="flex gap-3 text-sm text-gray-500">
-          <Link href="/hoy" className="hover:text-gray-900">
-            ‹ Hoy
-          </Link>
-          <Link href="/estadisticas" className="hover:text-gray-900">
-            Stats
-          </Link>
-        </nav>
-      </header>
+    <AppShell>
+      <div className="flex flex-col gap-5">
+        <header>
+          <h1 className="font-display text-2xl font-bold text-ink">Bloques</h1>
+          <p className="mt-0.5 text-[13px] text-ink-faint">
+            Orden fijo de tu secuencia diaria
+          </p>
+        </header>
 
-      <BlockManager bloquesIniciales={activos} />
+        <BlockManager bloquesIniciales={activos} />
 
-      <NewBlockForm />
+        <NewBlockForm />
 
-      {inactivos.length > 0 && (
-        <div className="flex flex-col gap-0.5">
-          <h2 className="px-3 text-xs font-medium tracking-wide text-gray-400 uppercase">
-            Eliminados
-          </h2>
-          {inactivos.map((bloque) => (
-            <div
-              key={bloque.id}
-              className="px-3 py-2 text-[15px] text-gray-400 line-through"
-            >
-              {bloque.name}
-            </div>
-          ))}
-        </div>
-      )}
-    </main>
+        {inactivos.length > 0 && (
+          <div className="flex flex-col gap-1">
+            <h2 className="px-1 text-[12.5px] font-bold tracking-[.04em] text-ink-faint uppercase">
+              Eliminados
+            </h2>
+            {inactivos.map((bloque) => (
+              <div key={bloque.id} className="px-1 py-2 text-[14.5px] text-ink-faint line-through">
+                {bloque.name}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </AppShell>
   );
 }
