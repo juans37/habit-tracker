@@ -11,6 +11,7 @@ import {
   calcularCumplimientoPorBloque,
 } from "@/lib/estadisticas";
 import { AppShell } from "@/components/app-shell";
+import { SignOutButton } from "@/components/sign-out-button";
 import { StatCard } from "./stat-card";
 import { Badges } from "./badges";
 import { StreakHeatmap } from "./streak-heatmap";
@@ -108,6 +109,10 @@ export default async function EstadisticasPage() {
             </div>
           </>
         )}
+
+        <div className="mt-2 flex justify-center">
+          <SignOutButton />
+        </div>
       </div>
     </AppShell>
   );

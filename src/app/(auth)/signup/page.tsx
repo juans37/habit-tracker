@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import { AuthShell } from "@/components/auth-shell";
+import { OAuthButtons } from "@/components/oauth-buttons";
 
 export default function SignupPage() {
   const [email, setEmail] = useState("");
@@ -31,18 +33,26 @@ export default function SignupPage() {
 
   if (success) {
     return (
-      <main className="mx-auto flex min-h-screen max-w-sm flex-col justify-center gap-4 p-6">
-        <h1 className="text-xl font-semibold">Revisá tu email</h1>
-        <p className="text-sm">
-          Te mandamos un link de confirmación a <strong>{email}</strong>.
+      <AuthShell title="Revisá tu email" subtitle={`Te mandamos un link de confirmación a ${email}`}>
+        <p className="text-center text-sm text-ink-soft">
+          Una vez confirmado, ya podés iniciar sesión.
         </p>
-      </main>
+      </AuthShell>
     );
   }
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-sm flex-col justify-center gap-4 p-6">
-      <h1 className="text-xl font-semibold">Crear cuenta</h1>
+    <AuthShell title="Crear cuenta" subtitle="Empezá a seguir tu rutina diaria">
+      <OAuthButtons />
+
+      <div className="my-5 flex items-center gap-3">
+        <div className="h-px flex-1 bg-border" />
+        <span className="text-[11px] font-semibold tracking-wide text-ink-faint uppercase">
+          o con email
+        </span>
+        <div className="h-px flex-1 bg-border" />
+      </div>
+
       <form onSubmit={handleSubmit} className="flex flex-col gap-3">
         <input
           type="email"
@@ -50,7 +60,7 @@ export default function SignupPage() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="rounded border px-3 py-2"
+          className="rounded-lg border border-border-strong bg-surface px-3 py-2.5 text-sm text-ink outline-none placeholder:text-ink-faint"
         />
         <input
           type="password"
@@ -59,23 +69,24 @@ export default function SignupPage() {
           onChange={(e) => setPassword(e.target.value)}
           required
           minLength={6}
-          className="rounded border px-3 py-2"
+          className="rounded-lg border border-border-strong bg-surface px-3 py-2.5 text-sm text-ink outline-none placeholder:text-ink-faint"
         />
-        {error && <p className="text-sm text-red-600">{error}</p>}
+        {error && <p className="text-[13px] text-danger">{error}</p>}
         <button
           type="submit"
           disabled={loading}
-          className="rounded bg-black px-3 py-2 text-white disabled:opacity-50"
+          className="rounded-lg bg-accent py-2.5 text-sm font-bold text-surface disabled:opacity-50"
         >
           {loading ? "Creando..." : "Crear cuenta"}
         </button>
       </form>
-      <p className="text-sm">
+
+      <p className="mt-5 text-center text-[13px] text-ink-faint">
         ¿Ya tenés cuenta?{" "}
-        <Link href="/login" className="underline">
+        <Link href="/login" className="font-semibold text-accent">
           Iniciar sesión
         </Link>
       </p>
-    </main>
+    </AuthShell>
   );
 }
