@@ -18,9 +18,14 @@ export default async function BloquesPage() {
     <main className="mx-auto flex min-h-screen w-full max-w-md flex-col gap-8 p-6">
       <header className="flex items-baseline justify-between">
         <h1 className="text-xl font-semibold">Bloques</h1>
-        <Link href="/hoy" className="text-sm text-gray-500 hover:text-gray-900">
-          ‹ Hoy
-        </Link>
+        <nav className="flex gap-3 text-sm text-gray-500">
+          <Link href="/hoy" className="hover:text-gray-900">
+            ‹ Hoy
+          </Link>
+          <Link href="/estadisticas" className="hover:text-gray-900">
+            Stats
+          </Link>
+        </nav>
       </header>
 
       <BlockManager bloquesIniciales={activos} />

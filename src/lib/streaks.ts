@@ -63,3 +63,23 @@ export function calcularRacha(
   }
   return racha;
 }
+
+// Racha máxima histórica: la corrida más larga de días consecutivos que alcanzaron el
+// umbral en cualquier punto del historial (no solo la racha activa hoy). El orden de
+// `dias` no importa mientras sea cronológicamente consistente.
+export function calcularMejorRacha(
+  dias: RatioDia[],
+  umbral: number = UMBRAL_DIA_CUMPLIDO,
+): number {
+  let mejor = 0;
+  let actual = 0;
+  for (const dia of dias) {
+    if (dia.ratio >= umbral) {
+      actual++;
+      mejor = Math.max(mejor, actual);
+    } else {
+      actual = 0;
+    }
+  }
+  return mejor;
+}
