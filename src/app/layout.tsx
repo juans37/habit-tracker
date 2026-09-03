@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, Manrope } from "next/font/google";
 import "./globals.css";
 
@@ -17,6 +17,25 @@ const manrope = Manrope({
 export const metadata: Metadata = {
   title: "Rutina",
   description: "Seguimiento diario de bloques anclados",
+  applicationName: "Rutina",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Rutina",
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  other: {
+    "apple-mobile-web-app-capable": "yes",
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#050607",
 };
 
 export default function RootLayout({
