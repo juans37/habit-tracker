@@ -89,6 +89,25 @@ Notas de diseño:
 
 ## Estado actual del desarrollo
 
-Recién se está por arrancar el scaffold (Next.js inicializado en el entorno de prueba, node
-v22 / npm 10 disponibles). Todavía no existe código de la app en sí — el esquema SQL, el
-cliente de Supabase y la vista Hoy funcional son los primeros pasos a implementar.
+**MVP completo y en producción.** Las 6 features del alcance están implementadas y el flujo
+completo (auth → crear bloques → marcar cumplimiento → ver estadísticas) funciona de punta a
+punta contra datos reales:
+
+- **Esquema + Supabase**: proyecto creado (ref `rhlwwtpuhscsjqbswymo`), migración
+  `supabase/migrations/0001_init.sql` corrida (`blocks`/`completions` con RLS).
+- **Auth**: email/password, magic link y OAuth Google/GitHub, todo confirmado funcionando en
+  producción (requiere que el dominio de Vercel esté en Redirect URLs de Supabase Auth).
+- **Deploy**: en Vercel, `https://habit-tracker-sandy-five.vercel.app`, auto-deploy en cada
+  push a `main` (repo `juans37/habit-tracker`). Dominio propio todavía no conectado —
+  deliberadamente diferido, ver sección Stack.
+- **PWA / instalación en celular**: manifest (`display: standalone`), íconos generados
+  (favicon, apple-touch-icon, 192/512/maskable) y meta tags de `viewport-fit=cover`/
+  `theme-color`/`apple-mobile-web-app-*`. Confirmado por el usuario: instala en el celular y
+  abre sin barra de navegador, como una app nativa. No incluye service worker ni soporte
+  offline — no hizo falta para lograr el modo standalone, y no está en el alcance del MVP.
+
+### Pendiente / próximos pasos posibles
+
+- Conectar dominio propio (`habitos.juanseworkspace.work`) — no prioritario.
+- Backup periódico de la DB (Supabase Free no hace backups automáticos).
+- Pantalla de configuración para el umbral de racha (hoy es una constante fija al 70%).
