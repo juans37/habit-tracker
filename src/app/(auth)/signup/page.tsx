@@ -33,22 +33,22 @@ export default function SignupPage() {
 
   if (success) {
     return (
-      <AuthShell title="Revisá tu email" subtitle={`Te mandamos un link de confirmación a ${email}`}>
+      <AuthShell title="Check your email" subtitle={`We sent a confirmation link to ${email}`}>
         <p className="text-center text-sm text-ink-soft">
-          Una vez confirmado, ya podés iniciar sesión.
+          Once confirmed, you can sign in.
         </p>
       </AuthShell>
     );
   }
 
   return (
-    <AuthShell title="Crear cuenta" subtitle="Empezá a seguir tu rutina diaria">
+    <AuthShell title="Create account" subtitle="Start leveling up your habits">
       <OAuthButtons />
 
       <div className="my-5 flex items-center gap-3">
         <div className="h-px flex-1 bg-border" />
         <span className="text-[11px] font-semibold tracking-wide text-ink-faint uppercase">
-          o con email
+          or with email
         </span>
         <div className="h-px flex-1 bg-border" />
       </div>
@@ -64,7 +64,7 @@ export default function SignupPage() {
         />
         <input
           type="password"
-          placeholder="Contraseña"
+          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
@@ -77,14 +77,14 @@ export default function SignupPage() {
           disabled={loading}
           className="rounded-lg bg-accent py-2.5 text-sm font-bold text-surface disabled:opacity-50"
         >
-          {loading ? "Creando..." : "Crear cuenta"}
+          {loading ? "Creating..." : "Create account"}
         </button>
       </form>
 
       <p className="mt-5 text-center text-[13px] text-ink-faint">
-        ¿Ya tenés cuenta?{" "}
+        Already have an account?{" "}
         <Link href="/login" className="font-semibold text-accent">
-          Iniciar sesión
+          Sign in
         </Link>
       </p>
     </AuthShell>

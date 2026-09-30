@@ -15,13 +15,13 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Rutina",
-  description: "Seguimiento diario de bloques anclados",
-  applicationName: "Rutina",
+  title: "Level Up",
+  description: "Level up your daily habits, one week at a time",
+  applicationName: "Level Up",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "Rutina",
+    title: "Level Up",
   },
   formatDetection: {
     telephone: false,
@@ -45,7 +45,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="es"
+      lang="en"
       className={`${spaceGrotesk.variable} ${manrope.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>

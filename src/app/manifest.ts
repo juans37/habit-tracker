@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Rutina",
-    short_name: "Rutina",
-    description: "Seguimiento diario de bloques anclados",
+    name: "Level Up",
+    short_name: "Level Up",
+    description: "Level up your daily habits, one week at a time",
     start_url: "/",
     display: "standalone",
     background_color: "#050607",

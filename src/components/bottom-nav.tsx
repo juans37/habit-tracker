@@ -4,9 +4,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const TABS = [
-  { href: "/hoy", label: "Hoy" },
-  { href: "/bloques", label: "Bloques" },
-  { href: "/estadisticas", label: "Stats" },
+  { href: "/today", label: "Today" },
+  { href: "/habits", label: "Habits" },
+  { href: "/stats", label: "Stats" },
 ];
 
 export function BottomNav() {
@@ -18,18 +18,18 @@ export function BottomNav() {
       style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 10px)" }}
     >
       {TABS.map((tab) => {
-        const activo = pathname.startsWith(tab.href);
+        const active = pathname.startsWith(tab.href);
         return (
           <Link
             key={tab.href}
             href={tab.href}
             className={`flex flex-1 flex-col items-center gap-1 py-1.5 text-[11.5px] font-bold ${
-              activo ? "text-ink" : "text-ink-faint"
+              active ? "text-ink" : "text-ink-faint"
             }`}
           >
             <span
               className="h-[5px] w-[5px] rounded-full"
-              style={{ background: activo ? "#FF8A3D" : "transparent" }}
+              style={{ background: active ? "#FF8A3D" : "transparent" }}
             />
             {tab.label}
           </Link>

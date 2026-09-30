@@ -32,18 +32,18 @@ export default function LoginPage() {
       return;
     }
 
-    router.push("/hoy");
+    router.push("/today");
     router.refresh();
   }
 
   return (
-    <AuthShell title="Iniciar sesión" subtitle="Volvé a tu secuencia de hoy">
+    <AuthShell title="Sign in" subtitle="Pick up where you left off today">
       <OAuthButtons />
 
       <div className="my-5 flex items-center gap-3">
         <div className="h-px flex-1 bg-border" />
         <span className="text-[11px] font-semibold tracking-wide text-ink-faint uppercase">
-          o con email
+          or with email
         </span>
         <div className="h-px flex-1 bg-border" />
       </div>
@@ -59,7 +59,7 @@ export default function LoginPage() {
         />
         <input
           type="password"
-          placeholder="Contraseña"
+          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
@@ -71,14 +71,14 @@ export default function LoginPage() {
           disabled={loading}
           className="rounded-lg bg-accent py-2.5 text-sm font-bold text-surface disabled:opacity-50"
         >
-          {loading ? "Entrando..." : "Entrar"}
+          {loading ? "Signing in..." : "Sign in"}
         </button>
       </form>
 
       <p className="mt-5 text-center text-[13px] text-ink-faint">
-        ¿No tenés cuenta?{" "}
+        Don&apos;t have an account?{" "}
         <Link href="/signup" className="font-semibold text-accent">
-          Registrate
+          Sign up
         </Link>
       </p>
     </AuthShell>

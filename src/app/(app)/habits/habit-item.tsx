@@ -3,24 +3,28 @@
 import { useState, useTransition } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { colorForBlock } from "@/lib/block-colors";
-import { eliminarBloque, renombrarBloque } from "./actions";
+import { colorForHabit } from "@/lib/habit-colors";
+import { frequencyLabel } from "@/lib/frequency";
+import { deleteHabit, updateHabit } from "./actions";
+import { FrequencyPicker } from "./frequency-picker";
 
-interface BlockItemProps {
-  blockId: string;
+interface HabitItemProps {
+  habitId: string;
   name: string;
+  timesPerWeek: number;
   index: number;
 }
 
-export function BlockItem({ blockId, name, index }: BlockItemProps) {
-  const [editando, setEditando] = useState(false);
-  const [valor, setValor] = useState(name);
+export function HabitItem({ habitId, name, timesPerWeek, index }: HabitItemProps) {
+  const [editing, setEditing] = useState(false);
+  const [value, setValue] = useState(name);
+  const [times, setTimes] = useState(timesPerWeek);
   const [isPending, startTransition] = useTransition();
 
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-    useSortable({ id: blockId });
+    useSortable({ id: habitId });
 
-  const color = colorForBlock(index);
+  const color = colorForHabit(index);
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -28,34 +32,32 @@ export function BlockItem({ blockId, name, index }: BlockItemProps) {
     opacity: isDragging ? 0.4 : 1,
   };
 
-  function guardarNombre() {
-    const nombre = valor.trim();
-    if (!nombre || nombre === name) {
-      setValor(name);
-      setEditando(false);
+  function saveChanges() {
+    const trimmed = value.trim();
+    if (!trimmed || (trimmed === name && times === timesPerWeek)) {
+      cancelEdit();
       return;
     }
     startTransition(async () => {
-      await renombrarBloque(blockId, nombre);
-      setEditando(false);
+      await updateHabit(habitId, trimmed, times);
+      setEditing(false);
     });
   }
 
-  function cancelarEdicion() {
-    setValor(name);
-    setEditando(false);
+  function cancelEdit() {
+    setValue(name);
+    setTimes(timesPerWeek);
+    setEditing(false);
   }
 
-  function handleEliminar() {
+  function handleDelete() {
     if (
-      !window.confirm(
-        `¿Eliminar "${name}"? Desaparece de Hoy, pero queda en la base de datos.`,
-      )
+      !window.confirm(`Delete "${name}"? It disappears from Today, but its history is kept.`)
     ) {
       return;
     }
     startTransition(async () => {
-      await eliminarBloque(blockId);
+      await deleteHabit(habitId);
     });
   }
 
@@ -71,7 +73,7 @@ export function BlockItem({ blockId, name, index }: BlockItemProps) {
           {...attributes}
           {...listeners}
           className="shrink-0 cursor-grab touch-none pr-0.5 text-[16px] leading-none tracking-[2px] text-ink-faint active:cursor-grabbing"
-          aria-label="Reordenar"
+          aria-label="Reorder"
         >
           ⠿
         </button>
@@ -81,62 +83,65 @@ export function BlockItem({ blockId, name, index }: BlockItemProps) {
         >
           {name.charAt(0).toUpperCase()}
         </div>
-        {editando ? (
+        {editing ? (
           <input
             autoFocus
-            value={valor}
-            onChange={(e) => setValor(e.target.value)}
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === "Enter") guardarNombre();
-              if (e.key === "Escape") cancelarEdicion();
+              if (e.key === "Enter") saveChanges();
+              if (e.key === "Escape") cancelEdit();
             }}
-            placeholder="Nombre"
+            placeholder="Name"
             className="flex-1 min-w-0 rounded-lg border border-border-strong bg-surface px-2.5 py-2 text-sm text-ink outline-none"
           />
         ) : (
-          <span className="flex-1 min-w-0 truncate text-[14.5px] font-bold text-ink">
-            {name}
-          </span>
+          <div className="flex min-w-0 flex-1 flex-col">
+            <span className="truncate text-[14.5px] font-bold text-ink">{name}</span>
+            <span className="text-[12px] text-ink-faint">{frequencyLabel(timesPerWeek)}</span>
+          </div>
         )}
       </div>
 
+      {editing && <FrequencyPicker value={times} onChange={setTimes} disabled={isPending} />}
+
       <div className="flex gap-2">
-        {editando ? (
+        {editing ? (
           <>
             <button
               type="button"
-              onClick={guardarNombre}
+              onClick={saveChanges}
               disabled={isPending}
               className="flex-1 rounded-lg bg-success py-2 text-[13px] font-bold text-surface disabled:opacity-60"
             >
-              Guardar
+              Save
             </button>
             <button
               type="button"
-              onClick={cancelarEdicion}
+              onClick={cancelEdit}
               disabled={isPending}
               className="flex-1 rounded-lg bg-surface py-2 text-[13px] font-semibold text-ink-soft disabled:opacity-60"
             >
-              Cancelar
+              Cancel
             </button>
           </>
         ) : (
           <>
             <button
               type="button"
-              onClick={() => setEditando(true)}
+              onClick={() => setEditing(true)}
               disabled={isPending}
               className="flex-1 rounded-lg bg-surface py-2 text-[13px] font-semibold text-ink-soft disabled:opacity-60"
             >
-              Renombrar
+              Edit
             </button>
             <button
               type="button"
-              onClick={handleEliminar}
+              onClick={handleDelete}
               disabled={isPending}
               className="flex-1 rounded-lg bg-[rgba(244,63,94,.1)] py-2 text-[13px] font-semibold text-danger disabled:opacity-60"
             >
-              Eliminar
+              Delete
             </button>
           </>
         )}

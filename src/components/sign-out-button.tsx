@@ -23,7 +23,7 @@ export function SignOutButton() {
       disabled={loading}
       className="text-[13px] font-semibold text-ink-faint disabled:opacity-50"
     >
-      {loading ? "Saliendo..." : "Cerrar sesión"}
+      {loading ? "Signing out..." : "Sign out"}
     </button>
   );
 }
